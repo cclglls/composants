@@ -1,3 +1,7 @@
+/* ANT D CSS LINK */
+@import '~antd/dist/antd.css';
+
+/* Default css : */
 .App {
   text-align: center;
 }
@@ -19,4 +23,16 @@
 
 .App-link {
   color: #09d3ac;
+}
+/* ********************************** */
+/* project css : */
+.Input{
+  display: flex;
+  flex-direction: row;
+}
+
+.Owner-Date{
+  display: flex;
+  flex-direction: row;
+  justify-content:flex-start
 }
