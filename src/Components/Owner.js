@@ -5,24 +5,27 @@ import { Select } from 'antd';
 const { Option } = Select;
 
 
-function onChange(value) {
-    console.log(`selected ${value}`);
-  }
+
   
-  function onBlur() {
-    console.log('blur');
-  }
-  
-  function onFocus() {
-    console.log('focus');
-  }
-  
+// fonction qui gere la valeur saisie dans champ ATTENTION value en dur pour le moment
   function onSearch(val) {
     console.log('search:', val);
   }
   
   
 class Owner extends React.Component {
+
+  constructor(props){
+    super()
+    this.onChange = this.onChange.bind(this)
+  }
+
+// fonction qui gere le noms du responsable du projet
+  onChange(value) {
+    console.log(" ")
+    console.log(`from composant enfant Owner : Personne choisie -> ${value}`);
+    this.props.handleClickParent(value);
+}
 
     render() {
         return (
@@ -31,10 +34,8 @@ class Owner extends React.Component {
             style={{ width: 100 }}
             placeholder="Select a person"
             optionFilterProp="children"
-            onChange={onChange}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            onSearch={onSearch}
+            onChange={this.onChange}        
+            onSearch={onSearch}           
             filterOption={(input, option) =>
                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }>

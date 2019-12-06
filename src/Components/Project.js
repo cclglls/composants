@@ -6,32 +6,63 @@ import Owner from './Owner'
 
 import { Modal, Button,Input} from "antd";
 
+
+
 const { TextArea } = Input;
 
 
 
 class Project extends React.Component {
 
-// Traitement pour la modal
   state = {
-    loading: false,
+    name: '',
+    description:'',
+    date: 'Date vide',
+    owner: '',
     visible: false,
     size: 'large',
-    
   };
 
+
+  // Traitement pour la modal
   showModal = () => {
     this.setState({
       visible: true
     });
   };
 
-  handleOk = () => {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({ loading: false, visible: false });
-    }, 3000);
+  // fonction qui gere les données qui proviennent des composants enfants 
+  handleDate = (date) => {
+    console.log(" ")
+    console.log("Composant Project fonction handleDate:")
+    console.log("nom récupéré --> ", this.state.name)
+    console.log("description récupérée --> ", this.state.description)
+    console.log(" ")
+    console.log("date récupérée --> ", date)
+    this.setState({ date: date });
+    
   };
+
+  handleOwner= (value) => {
+    console.log(" ")
+    console.log("Composant Project fonction handleOwner:")
+    console.log("Owner recupéré --> ", value)
+    this.setState({ owner: value});
+  }
+
+  //fonction qui va gerer le bouton submit
+  handleSubmit = () => {
+
+    console.log('Bouton Submit --> execution du fetch')
+
+    fetch(`http://localhost:3000/projects/project`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: `name=${this.state.name}&description=${this.state.description}&owner=${this.state.owner}&date${this.state.date}`
+    })
+  }
+
+  
 
   handleCancel = () => {
     this.setState({ visible: false });
@@ -46,46 +77,50 @@ class Project extends React.Component {
  /***************************************/
 
   render() {
-
-    const { visible, loading, size } = this.state;
+    console.log("from Project render : contenu state date -->", this.state.date)
 
     return (
       <div>
-        <Button type="primary" onClick={this.showModal}>
+        <Button type="link" onClick={this.showModal}>
         Project
         </Button>
       
         <Modal
-          visible={visible}
+          visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[ 
-            <Button key="submit" type="primary" loading={loading} size={size} onClick={this.handleOk} >
+            <Button key="submit" type="primary" size={this.state.size} onClick={this.handleSubmit} >
               Submit
             </Button>
         ]}>
           
             <div className="Input">
               <p style={{marginRight: '1.25em'}}>Name</p> 
-              <Input style={{marginBottom: '1.25em',width: '80%' }} placeholder="Project" />
+              <Input style={{marginBottom: '1.25em',width: '80%' }} 
+              onChange={(e) => this.setState({name: e.target.value})}
+              placeholder="Project" />
             </div>
 
             <div className="Input">
               <p style={{marginRight: '1.8em' }}>Desc</p>
-              <TextArea style={{marginBottom: '1.25em',width: '80%'}} rows={4} placeholder="Description" />
+              <TextArea style={{marginBottom: '1.25em',width: '80%'}} rows={4} 
+              onChange={(e) => this.setState({description: e.target.value})}
+              placeholder="Description" />
             </div>
          
             <div className="Owner-Date">
 
-            <div className="Input">
-              <p style={{marginRight: '1em'}}>Owner</p>
-              <Owner/>
-            </div>
-            
-            <div className="Input">
-              <p style={{marginLeft: '2.4em' ,marginRight: '1em'}}>Due date</p>               
-              <Datepicker/>          
-            </div>
+              <div className="Input">
+                <p style={{marginRight: '1em'}}>Owner</p>
+                <Owner handleClickParent={this.handleOwner}/>
+              </div>
+              
+              <div className="Input">
+                <p style={{marginLeft: '2.4em' ,marginRight: '1em'}}>Due date</p>               
+                <Datepicker handleClickParent={this.handleDate}/>          
+              </div>
+
             </div>  
         
         </Modal>

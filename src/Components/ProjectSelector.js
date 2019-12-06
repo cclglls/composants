@@ -5,26 +5,31 @@ import { Select } from 'antd';
 const { Option } = Select;
 
 
-function onChange(value) {
-    console.log(`selected ${value}`);
-    
-  }
+
   
   function onBlur(e) {
     console.log('blur');
-    this.setState({name: e.target.value})
+    
   }
-  
-  function onFocus() {
-    console.log('focus');
-  }
-  
+
   function onSearch(val) {
     console.log('search:', val);
   }
   
   
 class ProjectSelector extends React.Component {
+
+  constructor(props){
+    super()
+    this.onChange = this.onChange.bind(this)
+  }
+
+// fonction qui à attribuer les projets
+  onChange(value) {
+    console.log(" ")
+    console.log(`from composant enfant ProjectSelector: Projet selectionné -> ${value}`);
+    // this.props.handleClickParent(value);
+}
 
 
     render() {
@@ -34,8 +39,7 @@ class ProjectSelector extends React.Component {
             style={{ width: 300 }}
             placeholder="Select a project"
             optionFilterProp="children"
-            onChange={onChange}
-            onFocus={onFocus}
+            onChange={this.onChange}
             onBlur={onBlur}
             onSearch={onSearch}
             filterOption={(input, option) =>

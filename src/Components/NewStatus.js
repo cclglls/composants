@@ -1,25 +1,29 @@
 import React from "react";
 import "../App.css";
+import { Modal, Button, Divider, Switch } from "antd";
 
-import ProjectSelector from './ProjectSelector'
 
-import { Modal, Button,Input, Divider } from "antd";
-
-import NewComment from './NewComment'
-
+import StatusSelector from './StatusSelector'
+import NewComment from "./NewComment";
 
 
 
 
-class Conversation extends React.Component {
+// switch button
+function onChange(checked) {
+    console.log(`switch to ${checked}`);
+  }
 
+class NewStatus extends React.Component {
+
+   
  
 // Traitement pour la modal
   state = {
     loading: false,
     visible: false,
     size: 'large',
-    
+    comments : [],
   };
 
   showModal = () => {
@@ -54,7 +58,7 @@ class Conversation extends React.Component {
     return (
       <div>
         <Button type="link" onClick={this.showModal}>
-        Conversation
+        Status
         </Button>
         <Modal
           visible={visible}
@@ -67,18 +71,23 @@ class Conversation extends React.Component {
         ]}>
 
             <div className="Input">
-              <p style={{marginRight: '1.4em'}}>Name</p> 
-              <Input style={{marginBottom: '1.4em',width: '80%' }} placeholder="Project" />
+              <p style={{marginRight: '1.4em'}}>New status update</p> 
+              <StatusSelector />
+              
             </div>
           
-            <div className="Input">
-              <p style={{marginRight: '1em'}}>Project</p>
-              <ProjectSelector />
-            </div>
+            
             
             <Divider style={{width : '100%'}}/>
-            
+
             <NewComment/>
+         
+                <div className="Input">
+                <p style={{marginRight: '1em'}} >Generate progress chart</p>
+                <Switch defaultChecked onChange={onChange} />             
+                </div>
+
+
         
         </Modal>
       </div>
@@ -86,4 +95,4 @@ class Conversation extends React.Component {
   }
 }
 
-export default Conversation;
+export default NewStatus;
