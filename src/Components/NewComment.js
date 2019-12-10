@@ -71,7 +71,7 @@ class NewComment extends React.Component {
   render() {
 
     const { comments, submitting, value } = this.state;
-    console.log("From New Comment : contenu du state commentaire --> ", this.state.comment)
+   
 
     return (
       <div>

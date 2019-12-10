@@ -46,3 +46,11 @@
 }
 /* ********************************** */
 
+/* composant NewTask **************** */
+/* placement des selectors .AssignedTo et DueDate */
+.AssignedTo-DueDate {
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+}
+/* ********************************** */

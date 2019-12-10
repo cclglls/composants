@@ -2,10 +2,13 @@
 import React from 'react';
 import '../App.css';
 
-import { Modal, Button, Input } from 'antd';
+import { Modal, Button, Input, Divider, Timeline } from 'antd';
+import moment from 'moment';
 
-import Owner from './Owner'
+import Owner from './Owner';
 import Datepicker from './Datepicker';
+import NewComment from './NewComment';
+import Followers from './Followers';
 
 const { TextArea } = Input;
 
@@ -23,13 +26,50 @@ class NewTask extends React.Component {
     });
   };
 
-  handleSubmit = () => {
-  
-  };
-
+  // bouton Croix
   handleCancel = () => {
     this.setState({ visible: false });
   };
+
+  // fonction qui gere le selector owner comme project Rajouter l'id
+  handleOwner= (value) => {
+    console.log(" ")
+    console.log("nom récupéré --> ", this.state.name)
+    console.log("description récupérée --> ", this.state.description)
+    console.log(" ")
+    console.log("Composant NewTask fonction handleOwner:")
+    console.log("Owner recupéré --> ", value)
+    this.setState({ owner: value});
+  }
+   // fonction qui gere le DatePicker :
+   onChange = (date, dateString) => {
+    console.log(date, dateString);
+    var duedate = new Date(dateString);
+    console.log('due date', duedate, date._d);
+    this.setState({ duedate });
+  };
+   //************************************** */
+
+   //fonction qui va gerer le bouton submit
+   handleSubmit = () => {
+    console.log('Bouton Submit --> execution du fetch');
+
+    if (!this.props.idproject) {
+      fetch(`http://localhost:3000/projects/project`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `name=${this.state.name}&description=${this.state.description}&idowner=${this.state.idowner}&duedate=${this.state.duedate}`
+      });
+    } else {
+      fetch(`http://localhost:3000/projects/project/${this.props.idproject}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `name=${this.state.name}&description=${this.state.description}&idowner=${this.state.idowner}&duedate=${this.state.duedate}`
+      });
+    }
+    this.setState({ visible: false });
+  };
+
 
   render() {
 
@@ -42,32 +82,58 @@ class NewTask extends React.Component {
         </Button>
         <Modal
           visible={visible}
-          title="Title"
+          title="Task"
+          width="700px"
           onCancel={this.handleCancel}
           footer={[
             <Button key="submit" type="primary"  onClick={this.handleSubmit}>
               Submit
             </Button>,
           ]}
-        >
+        >         
+
           <div className="Input">
-              <p style={{marginRight: '1.25em'}}>Name</p> 
+              <p style={{marginRight: '3.2em'}}>Name</p> 
               <Input style={{marginBottom: '1.25em',width: '80%' }} 
-              onChange={(e) => this.setState({name: e.target.value})}
-              placeholder="Project" />
+              onChange={(e) => this.setState({name: e.target.value})}/>
             </div>
 
-            <div>
-              <Owner/>
-              <Datepicker/>
+            <div className="AssignedTo-DueDate">
+
+              <div className="Input">
+              <p style={{marginRight: '0.6em'}}>Assigned to</p>
+              <Owner handleClickParent={this.handleOwner}/>
+              </div>
+
+              <div className="Input" style={{marginBottom: '1.25em',marginRight: '3.5em'  }}>
+              <p style={{marginRight: '1em'}}>Due date</p> 
+              <Datepicker 
+                value={moment(this.state.duedate)}
+                onChange={this.onChange}
+                style={{marginBottom: '1.25em', width: '30%',}}
+              />
+              </div>
+
             </div>
 
             <div className="Input">
-              <p style={{marginRight: '1.8em' }}>Desc</p>
+              <p style={{marginRight: '3.6em' }}>Desc</p>
               <TextArea style={{marginBottom: '1.25em',width: '80%'}} rows={4} 
               onChange={(e) => this.setState({description: e.target.value})}
               placeholder="Description" />
             </div>
+
+            <Button style={{backgroundColor: '#5b8c00', color: 'white'}}>Completed</Button>
+
+            <Divider/>
+
+            <Timeline>
+              <Timeline.Item color="green">Create a services site 2019-04-01</Timeline.Item>             
+           </Timeline> 
+          {/* composant NewComment ci dessous à changer par ton composant conversation */}
+            <NewComment />
+
+            <Followers/>
 
         </Modal>
       </div>

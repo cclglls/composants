@@ -2,7 +2,7 @@ import React from 'react';
 import '../App.css';
 
 import Project from './Project'
-import Conversation from './Conversation'
+import Conversation from './Conversations'
 import Plus from './Plus'
 import SearchButton from './SearchButton'
 

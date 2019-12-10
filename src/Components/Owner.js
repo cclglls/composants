@@ -20,7 +20,7 @@ class Owner extends React.Component {
     this.onChange = this.onChange.bind(this)
   }
 
-// fonction qui gere le noms du responsable du projet
+// fonction qui gere le nom du responsable du projet
   onChange(value) {
     console.log(" ")
     console.log(`from composant enfant Owner : Personne choisie -> ${value}`);

@@ -3,7 +3,7 @@ import '../App.css';
 import { Menu, Dropdown,Icon, Button } from 'antd';
 
 import Project from './Project'
-import Conversation from './Conversation'
+import Conversation from './Conversations'
 import NewStatus from './NewStatus'
 import NewTask from './NewTask'
 
