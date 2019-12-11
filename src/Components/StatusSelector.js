@@ -5,11 +5,12 @@ import { Select } from 'antd';
 const { Option } = Select;
 
 
-function onChange(value) {
-    console.log(`selected ${value}`);
+// function onChange(value) {
+//     console.log(`selected ${value}`);
     
-  }
-  
+//   }
+
+
   
   function onSearch(val) {
     console.log('search:', val);
@@ -17,6 +18,17 @@ function onChange(value) {
   
   
 class StatusSelector extends React.Component {
+
+    constructor(props){
+        super()
+        this.onChange = this.onChange.bind(this)
+      }
+
+    onChange(value) {
+        console.log(" ")
+        console.log(`from composant enfant Status Selector : Status choisi -> ${value}`);
+        this.props.handleClickParent(value);
+    }
 
 
     render() {
@@ -26,7 +38,7 @@ class StatusSelector extends React.Component {
             style={{ width: 300 }}
             placeholder="Set a status"
             optionFilterProp="children"
-            onChange={onChange}
+            onChange={this.onChange}
            
             onSearch={onSearch}
             filterOption={(input, option) =>

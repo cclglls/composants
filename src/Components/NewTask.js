@@ -9,6 +9,7 @@ import Owner from './Owner';
 import Datepicker from './Datepicker';
 import NewComment from './NewComment';
 import Followers from './Followers';
+import ProjectSelectorTask from './ProjectSelectorTask';
 
 const { TextArea } = Input;
 
@@ -16,7 +17,8 @@ class NewTask extends React.Component {
   state = {
     visible: false,
     name: '',
-    description: ''
+    description: '',
+    project: ''
   };
 
 
@@ -40,6 +42,14 @@ class NewTask extends React.Component {
     console.log("Composant NewTask fonction handleOwner:")
     console.log("Owner recupéré --> ", value)
     this.setState({ owner: value});
+  }
+
+   // fonction qui gere le selector project comme project MANQUE l'ID du projet
+   handleProject= (value) => {
+    console.log(" ")
+    console.log("Composant NewTask fonction handleProject:")
+    console.log("Projet recupéré --> ", value)
+    this.setState({ project: value});
   }
    // fonction qui gere le DatePicker :
    onChange = (date, dateString) => {
@@ -122,8 +132,11 @@ class NewTask extends React.Component {
               onChange={(e) => this.setState({description: e.target.value})}
               placeholder="Description" />
             </div>
-
-            <Button style={{backgroundColor: '#5b8c00', color: 'white'}}>Completed</Button>
+          {/* Manque la marge gauche pour le composant ProjectSelectorTask ci dessous */}
+            <div className="AssignedTo-DueDate">
+              <ProjectSelectorTask handleClickParent={this.handleProject}/>
+              <Button style={{backgroundColor: '#5b8c00', color: 'white', marginRight: '3.5em' }}>Completed</Button>
+            </div>
 
             <Divider/>
 

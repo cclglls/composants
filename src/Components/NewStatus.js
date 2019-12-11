@@ -9,29 +9,38 @@ import NewComment from "./NewComment";
 
 
 
-// switch button
-function onChange(checked) {
-    console.log(`switch to ${checked}`);
-  }
+
 
 class NewStatus extends React.Component {
 
-   
- 
-// Traitement pour la modal
+
   state = {
     visible: false,
     size: 'large',
     comments : [],
+    checked: '',
+    status: ''
   };
 
+  // switch button
+  onChange= (checked) => {
+  console.log(`switch to ${checked}`);
+  this.setState({
+    checked: checked
+  });
+}
+
+// Traitement pour la modal
   showModal = () => {
     this.setState({
       visible: true
     });
   };
 
-  handleOk = () => {
+  handlePost = () => {
+
+    console.log('Bouton Post --> execution du fetch')
+
     this.setState({ visible: false })
   };
 
@@ -39,6 +48,14 @@ class NewStatus extends React.Component {
     this.setState({ visible: false });
   };
   /***************************************/
+
+  handleSelector= (value) => {
+    console.log(" ")
+    console.log("Composant Parent NewStatus fonction handleSelector:")
+    console.log("Status recupéré --> ", value)
+    console.log(" ")
+    this.setState({ status: value});
+  }
 
 
   //Submit button :
@@ -58,17 +75,16 @@ class NewStatus extends React.Component {
         </Button>
         <Modal
           visible={visible}
-          onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[ 
-            <Button key="submit" type="primary" size={size} onClick={this.handleOk} >
+            <Button key="submit" type="primary" size={size} onClick={this.handlePost} >
               Post
             </Button>
         ]}>
 
             <div className="Input">
               <p style={{marginRight: '1.4em'}}>New status update</p> 
-              <StatusSelector />
+              <StatusSelector handleClickParent={this.handleSelector}/>
               
             </div>
           
@@ -80,7 +96,7 @@ class NewStatus extends React.Component {
          
                 <div className="Input">
                 <p style={{marginRight: '1em'}} >Generate progress chart</p>
-                <Switch defaultChecked onChange={onChange} />             
+                <Switch defaultChecked onChange={this.onChange} />             
                 </div>
 
 
